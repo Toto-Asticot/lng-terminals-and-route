@@ -53,12 +53,12 @@ def run():
     terminal_df['MercatorLon'], terminal_df['MercatorLat'] = zip(*[transform(lon_lat_proj, mercator_proj, lon, lat) for lon, lat in zip(terminal_df['Longitude'], terminal_df['Latitude'])])
 
     # Function to get route
-    def get_route(start_terminal, end_terminal):
+    def get_route(start_terminal, end_terminal, speed_knot=15,restrictions=["northwest"]):
         origin = [terminal_df[terminal_df["TerminalName"] == start_terminal]["Longitude"].values[0],
                   terminal_df[terminal_df["TerminalName"] == start_terminal]["Latitude"].values[0]]
         destination = [terminal_df[terminal_df["TerminalName"] == end_terminal]["Longitude"].values[0],
                        terminal_df[terminal_df["TerminalName"] == end_terminal]["Latitude"].values[0]]
-        route = sr.searoute(origin, destination)
+        route = sr.searoute(origin=origin, destination=destination,speed_knot=speed_knot,restrictions=restrictions)
         return route
     
     # Streamlit App
@@ -69,8 +69,11 @@ def run():
     start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist())
     end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist())
     
+    passage=["babalmandab","bosporus","gibraltar","suez","panama","ormuz"]
+    selected_values = st.multiselect('Select unaccessible routes:', passage)+["northwest"]
+    speed_knot = st.slider('Speed (knots):', min_value=0, max_value=30, value=15)
     # Get route
-    route = get_route(start_terminal, end_terminal)
+    route = get_route(start_terminal, end_terminal,speed_knot,selected_values)
     properties=route.properties
     properties["duration_hours"]=round(properties["duration_hours"]/24,2)
     properties["length"]=round(properties["length"])
