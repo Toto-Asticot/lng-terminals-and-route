@@ -33,7 +33,6 @@ def run():
         page_title="Hello",
         page_icon="👋",
     )
-   @st.cache
     def get_route(start_terminal, end_terminal, filtered_df):
         origin = [filtered_df[filtered_df["TerminalName"]==start_terminal]["Longitude"].values[0], filtered_df[filtered_df["TerminalName"]==start_terminal]["Latitude"].values[0]]
         destination = [filtered_df[filtered_df["TerminalName"]==end_terminal]["Longitude"].values[0], filtered_df[filtered_df["TerminalName"]==end_terminal]["Latitude"].values[0]]
