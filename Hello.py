@@ -15,7 +15,7 @@ import streamlit as st
 from streamlit.logger import get_logger
 from pyproj import Proj, transform
 from bokeh.plotting import figure, output_notebook, show
-from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.models import ColumnDataSource, HoverTool, Label
 from bokeh.tile_providers import get_provider, CARTODBPOSITRON, Vendors
 from bokeh.transform import factor_cmap
 import pandas as pd
