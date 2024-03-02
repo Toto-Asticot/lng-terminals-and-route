@@ -31,7 +31,7 @@ LOGGER = get_logger(__name__)
 def run():
     st.set_page_config(
         page_title="Hello",
-        page_icon="👋",
+        page_icon="sailboat",
     )
    # Read the terminal data
     excel_file_path = 'LNG_Terminals.xlsx'
