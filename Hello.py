@@ -101,11 +101,14 @@ def run():
     proposed_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Proposed'])
 
     # Draw circles for operating facilities
-    circle = p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType', legend_label='Operating')
-        # Draw triangles for construction facilities
-    triangle = p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType', legend_label='Under Construction')
-        # Draw crosses for proposed facilities
-    cross = p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType', legend_label='Proposed')
+# Draw circles for operating facilities
+    circle = p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_label='Operating')
+    
+    # Draw triangles for construction facilities
+    triangle = p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_label='Under Construction')
+    
+    # Draw crosses for proposed facilities
+    cross = p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_label='Proposed')
     # Add hover tools for circles
     circle_hover = HoverTool(renderers=[circle], tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(circle_hover)
