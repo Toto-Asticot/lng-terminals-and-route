@@ -66,8 +66,8 @@ def run():
 
     
     # User input for start and end terminals
-    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist())
-    end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist())
+    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist(), index=91)
+    end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist(), index=1153)
     
     passage=["babalmandab","bosporus","gibraltar","suez","panama","ormuz"]
     selected_values = st.multiselect('Select unaccessible routes:', passage)+["northwest"]
