@@ -109,16 +109,21 @@ def run():
     p.add_tools(triangle_hover)
     cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
-    # Define HTML code for Font Awesome icons
-    # Define HTML code for Font Awesome icons
-    circle_icon = '<i class="fas fa-circle" style="color:blue;"></i>'
-    triangle_icon = '<i class="fas fa-caret-up" style="color:orange;"></i>'
-    cross_icon = '<i class="fas fa-times" style="color:red;"></i>'
+    # URLs for Font Awesome icons
+    circle_icon_url = "URL for circle icon"
+    triangle_icon_url = "URL for triangle icon"
+    cross_icon_url = "URL for cross icon"
     
-    # Add HTML content using Streamlit's native components
-    st.markdown(f"{circle_icon}: Operating")
-    st.markdown(f"{triangle_icon}: Under Construction")
-    st.markdown(f"{cross_icon}: Proposed")
+    # Display icons using st.image()
+    st.image(circle_icon_url, width=30)
+    st.write("Circles: Operating")
+    
+    st.image(triangle_icon_url, width=30)
+    st.write("Triangles: Under Construction")
+    
+    st.image(cross_icon_url, width=30)
+    st.write("Crosses: Proposed")
+
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
