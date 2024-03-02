@@ -66,8 +66,8 @@ def run():
     st.write(terminal_df[["TerminalName", "FacilityType"]])
     
     # User input for start and end terminals
-    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["TerminalName"] == "Export"]["TerminalName"].tolist())
-    end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["TerminalName"] == "Import"]["TerminalName"].tolist())
+    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["TerminalName"] == "Export"].tolist())
+    end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["TerminalName"] == "Import"].tolist())
     
     # Get route
     route = get_route(start_terminal, end_terminal)
