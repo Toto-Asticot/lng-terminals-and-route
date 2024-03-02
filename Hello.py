@@ -14,6 +14,14 @@
 
 import streamlit as st
 from streamlit.logger import get_logger
+import streamlit as st
+# from pyproj import Proj, transform
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.tile_providers import get_provider, CARTODBPOSITRON
+from bokeh.transform import factor_cmap
+import pandas as pd
+import searoute as sr
 
 LOGGER = get_logger(__name__)
 
@@ -24,14 +32,6 @@ def run():
         page_icon="👋",
     )
 
-import streamlit as st
-from pyproj import Proj, transform
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.tile_providers import get_provider, CARTODBPOSITRON
-from bokeh.transform import factor_cmap
-import pandas as pd
-import searoute as sr
 
 # Define function to get route
 def get_route(start_terminal, end_terminal):
