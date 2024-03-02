@@ -54,6 +54,10 @@ terminal_df = terminal_df.loc[:, ["TerminalName", "FacilityType", "Status", "Par
 
 # Filter out rows with specific statuses
 filtered_df = terminal_df[~terminal_df['Status'].isin(['Shelved', 'Cancelled', 'Idle', 'Mothballed', 'Retired'])]
+# Convert latitude and longitude to Mercator coordinates
+lon_lat_proj = Proj(proj='latlong', datum='WGS84')
+mercator_proj = Proj(proj='merc', datum='WGS84')
+filtered_df['MercatorLon'], filtered_df['MercatorLat'] = zip(*[transform(lon_lat_proj, mercator_proj, lon, lat) for lon, lat in zip(filtered_df['Longitude'], filtered_df['Latitude'])])
 
 # Streamlit app begins
 st.title("Terminal Route Explorer")
@@ -81,9 +85,9 @@ operating_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Operat
 construction_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Construction'])
 proposed_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Proposed'])
 
-p.circle(x='Longitude', y='Latitude', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
-p.triangle(x='Longitude', y='Latitude', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
-p.cross(x='Longitude', y='Latitude', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
+p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
+p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
+p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
 
 hover = HoverTool(tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"),("Capacity (MTPA)", "@CapacityInMtpa")])
 p.add_tools(hover)
