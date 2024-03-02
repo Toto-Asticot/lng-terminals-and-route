@@ -113,12 +113,9 @@ def run():
     # Add line glyphs to the figure
     line = p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     
-    # Add a dummy circle glyph (invisible) to enable hover on the line
-    dummy_circle = p.circle(x="lon", y="lat", source=source, alpha=0)
-    
     # Define hover tool with renderers argument set to both line and dummy circle renderers
-    line_hover = HoverTool(renderers=[line, dummy_circle], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
-    p.add_tools(circle_hover)
+    line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
+    p.add_tools(line_hover)
     st.bokeh_chart(p, use_container_width=True)
     st.subheader("Terminal Data")
     st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
