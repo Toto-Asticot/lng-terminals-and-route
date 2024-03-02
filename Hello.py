@@ -90,9 +90,9 @@ def run():
     
     # Plot terminals
     color_mapper = factor_cmap(field_name='FacilityType', palette=['blue', 'green'], factors=sorted(filtered_df['FacilityType'].unique()))
-    operating_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Operating'])
-    construction_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Construction'])
-    proposed_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Proposed'])
+    operating_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Operating'])
+    construction_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Construction'])
+    proposed_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Proposed'])
 
     p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
     p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
