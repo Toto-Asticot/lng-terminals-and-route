@@ -4,6 +4,6 @@ pandas
 pydeck
 streamlit
 pyproj
-bokeh
+bokeh==2.4.3
 searoute
 openpyxl
