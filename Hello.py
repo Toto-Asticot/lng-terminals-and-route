@@ -120,6 +120,7 @@ def run():
     st.subheader("Terminal Data")
     st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
     st.write(terminal_df[terminal_df["TerminalName"] == end_terminal])
-    
+    st.subheader("Road estimation")
+    st.write(properties)
 if __name__ == "__main__":
     run()
