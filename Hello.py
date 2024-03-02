@@ -89,7 +89,7 @@ def run():
     p.add_tile(tile_provider)
     
     # Plot terminals
-    for status in filtered_df['Status'].unique():
+    for status in terminal_df['Status'].unique():
         source = ColumnDataSource(terminal_df[terminal_df['Status'] == status])
         p.circle(x='MercatorLon', y='MercatorLat', size=10, color='blue' if status == 'Operating' else 'green', source=source)
     
