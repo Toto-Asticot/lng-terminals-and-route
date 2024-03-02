@@ -105,13 +105,13 @@ def run():
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
     source = ColumnDataSource(data=dict(lon=lon, lat=lat))
-    p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
+    line=p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     
     # Hover tool
-    hover = HoverTool(renderers=[circle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
-    p.add_tools(hover)
-    hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
-    p.add_tools(hover)
+    circle_hover = HoverTool(renderers=[circle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    p.add_tools(circle_hover)
+    line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
+    p.add_tools(circle_hover)
     st.bokeh_chart(p, use_container_width=True)
 
 if __name__ == "__main__":
