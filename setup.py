@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='your_streamlit_app',
+    name='lng-terminals-and-route',
     version='0.1',
     install_requires=[
             "altair",
