@@ -6,3 +6,4 @@ streamlit
 pyproj
 bokeh
 searoute
+openpyxl
