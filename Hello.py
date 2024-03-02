@@ -98,9 +98,14 @@ def run():
     proposed_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Proposed'])
 
     circle=p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
-    p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
-    p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
-
+    triangle=p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
+    cross=p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
+    circle_hover = HoverTool(renderers=[circle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    p.add_tools(circle_hover)
+    triangle_hover = HoverTool(renderers=[triangle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    p.add_tools(triangle_hover)
+    cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    p.add_tools(cross_hover)
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
@@ -108,8 +113,7 @@ def run():
     line=p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     
     # Hover tool
-    circle_hover = HoverTool(renderers=[circle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
-    p.add_tools(circle_hover)
+
     line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
     p.add_tools(circle_hover)
     st.bokeh_chart(p, use_container_width=True)
