@@ -51,10 +51,10 @@ def run():
     
     # Function to get route
     def get_route(start_terminal, end_terminal):
-        origin = [filtered_df[filtered_df["TerminalName"] == start_terminal]["Longitude"].values[0],
-                  filtered_df[filtered_df["TerminalName"] == start_terminal]["Latitude"].values[0]]
-        destination = [filtered_df[filtered_df["TerminalName"] == end_terminal]["Longitude"].values[0],
-                       filtered_df[filtered_df["TerminalName"] == end_terminal]["Latitude"].values[0]]
+        origin = [terminal_df[terminal_df["TerminalName"] == start_terminal]["Longitude"].values[0],
+                  terminal_df[terminal_df["TerminalName"] == start_terminal]["Latitude"].values[0]]
+        destination = [terminal_df[terminal_df["TerminalName"] == end_terminal]["Longitude"].values[0],
+                       terminal_df[terminal_df["TerminalName"] == end_terminal]["Latitude"].values[0]]
         route = sr.searoute(origin, destination)
         return route
     
@@ -63,11 +63,11 @@ def run():
     
     # Display terminal data
     st.subheader("Terminal Data")
-    st.write(filtered_df[["TerminalName", "FacilityType"]])
+    st.write(terminal_df[["TerminalName", "FacilityType"]])
     
     # User input for start and end terminals
-    start_terminal = st.selectbox("Select Start Terminal:", options=filtered_df["TerminalName"].tolist())
-    end_terminal = st.selectbox("Select End Terminal:", options=filtered_df["TerminalName"].tolist())
+    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df["TerminalName"].tolist())
+    end_terminal = st.selectbox("Select End Terminal:", options=terminal_df["TerminalName"].tolist())
     
     # Get route
     route = get_route(start_terminal, end_terminal)
@@ -89,7 +89,7 @@ def run():
     
     # Plot terminals
     for status in filtered_df['Status'].unique():
-        source = ColumnDataSource(filtered_df[filtered_df['Status'] == status])
+        source = ColumnDataSource(terminal_df[terminal_df['Status'] == status])
         p.circle(x='MercatorLon', y='MercatorLat', size=10, color='blue' if status == 'Operating' else 'green', source=source)
     
     # Plot route
@@ -103,17 +103,6 @@ def run():
     p.add_tools(hover)
     
     st.bokeh_chart(p, use_container_width=True)
-
-# Define function to get route
-def get_route(start_terminal, end_terminal):
-    origin = [filtered_df[filtered_df["TerminalName"]==start_terminal]["Longitude"].values[0], filtered_df[filtered_df["TerminalName"]==start_terminal]["Latitude"].values[0]]
-    destination = [filtered_df[filtered_df["TerminalName"]==end_terminal]["Longitude"].values[0], filtered_df[filtered_df["TerminalName"]==end_terminal]["Latitude"].values[0]]
-    route = sr.searoute(origin, destination)
-    return route
-
-
-
-
 
 if __name__ == "__main__":
     run()
