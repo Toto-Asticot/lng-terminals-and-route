@@ -125,6 +125,6 @@ def run():
     st.write(terminal_df[terminal_df["TerminalName"] == end_terminal])
     st.subheader("Road estimation")
     st.write(pd.DataFrame({"Length (km)":properties["length"],"Duration (days)":properties["duration_hours"]},index=["Road Estimation"]))
-    st.markdown("Global Gas Infrastructure Tracker, Global Energy Monitor, october 2023.")
+    st.markdown("Data : Global Gas Infrastructure Tracker, Global Energy Monitor, october 2023.")
 if __name__ == "__main__":
     run()
