@@ -81,6 +81,8 @@ def run():
     mercator_proj = Proj(proj='merc', datum='WGS84')
     coordinates = route["geometry"]["coordinates"]
     mercator_coords = [transform(lon_lat_proj, mercator_proj, lon, lat) for lon, lat in coordinates]
+    st.subheader("Road estimation")
+    st.write(pd.DataFrame({"Length (km)":properties["length"],"Duration (days)":properties["duration_hours"]},index=["Road Estimation"]))
     
     # Plot
     st.subheader("Map with Route")
@@ -122,8 +124,6 @@ def run():
     st.subheader("Terminal Data")
     st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
     st.write(terminal_df[terminal_df["TerminalName"] == end_terminal])
-    st.subheader("Road estimation")
-    st.write(pd.DataFrame({"Length (km)":properties["length"],"Duration (days)":properties["duration_hours"]},index=["Road Estimation"]))
     st.markdown("Terminals data : Global Gas Infrastructure Tracker, Global Energy Monitor, october 2023.")
     st.markdown("Routes data : searoute")
 if __name__ == "__main__":
