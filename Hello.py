@@ -30,7 +30,7 @@ LOGGER = get_logger(__name__)
 
 def run():
     st.set_page_config(
-        page_title="Hello",
+        page_title="LNG Terminals and Routes",
         page_icon="sailboat",
     )
    # Read the terminal data
