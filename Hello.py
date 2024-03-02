@@ -48,7 +48,10 @@ def run():
     # Convert latitude and longitude to numeric type
     terminal_df['Latitude'] = pd.to_numeric(terminal_df['Latitude'], errors='coerce')
     terminal_df['Longitude'] = pd.to_numeric(terminal_df['Longitude'], errors='coerce')
-    
+    lon_lat_proj = Proj(proj='latlong', datum='WGS84')
+    mercator_proj = Proj(proj='merc', datum='WGS84')
+    terminal_df['MercatorLon'], terminal_df['MercatorLat'] = zip(*[transform(lon_lat_proj, mercator_proj, lon, lat) for lon, lat in zip(terminal_df['Longitude'], terminal_df['Latitude'])])
+
     # Function to get route
     def get_route(start_terminal, end_terminal):
         origin = [terminal_df[terminal_df["TerminalName"] == start_terminal]["Longitude"].values[0],
