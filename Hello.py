@@ -33,76 +33,78 @@ def run():
         page_title="Hello",
         page_icon="👋",
     )
-    # Read the terminal data
+   @st.cache
+    def get_route(start_terminal, end_terminal, filtered_df):
+        origin = [filtered_df[filtered_df["TerminalName"]==start_terminal]["Longitude"].values[0], filtered_df[filtered_df["TerminalName"]==start_terminal]["Latitude"].values[0]]
+        destination = [filtered_df[filtered_df["TerminalName"]==end_terminal]["Longitude"].values[0], filtered_df[filtered_df["TerminalName"]==end_terminal]["Latitude"].values[0]]
+        route = sr.searoute(origin, destination)
+        return route
+    
+    # Read the Excel file into a pandas DataFrame
     excel_file_path = 'LNG_Terminals.xlsx'
     terminal_df = pd.read_excel(excel_file_path)
     
-    # Process the DataFrame
+    # Process DataFrame
     for index, row in terminal_df.iterrows():
         if not pd.isna(row['UnitName']):
             terminal_df.at[index, 'TerminalName'] += ' ' + str(row['UnitName'])
     
     # Select required columns and drop NaN values
-    terminal_df = terminal_df.loc[:, ["TerminalName", "FacilityType", "Status", "Parent", "CapacityInMtpa", "Latitude", "Longitude"]].replace("Unknown", float('nan')).dropna()
+    terminal_df = terminal_df.loc[:, ["TerminalName", "FacilityType", "Status", "Parent", "CapacityInMtpa", "Latitude", "Longitude"]].replace("Unknown",float('nan')).dropna()
     
     # Convert latitude and longitude to numeric type
     terminal_df['Latitude'] = pd.to_numeric(terminal_df['Latitude'], errors='coerce')
     terminal_df['Longitude'] = pd.to_numeric(terminal_df['Longitude'], errors='coerce')
     
-    # Function to get route
-    def get_route(start_terminal, end_terminal):
-        origin = [terminal_df[terminal_df["TerminalName"] == start_terminal]["Longitude"].values[0],
-                  terminal_df[terminal_df["TerminalName"] == start_terminal]["Latitude"].values[0]]
-        destination = [terminal_df[terminal_df["TerminalName"] == end_terminal]["Longitude"].values[0],
-                       terminal_df[terminal_df["TerminalName"] == end_terminal]["Latitude"].values[0]]
-        route = sr.searoute(origin, destination)
-        return route
+    # Filter out rows with specific statuses
+    filtered_df = terminal_df[~terminal_df['Status'].isin(['Shelved', 'Cancelled', 'Idle', 'Mothballed', 'Retired'])]
     
-    # Streamlit App
-    st.title("Terminal Route Visualization")
+    # Streamlit UI
+    st.title('LNG Terminal Route Mapper')
     
-    # Display terminal data
-    st.subheader("Terminal Data")
-    st.write(terminal_df[["TerminalName", "FacilityType"]])
+    # Display filtered terminal names and types
+    st.write(filtered_df[["TerminalName", "FacilityType"]])
     
     # User input for start and end terminals
-    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df["TerminalName"].tolist())
-    end_terminal = st.selectbox("Select End Terminal:", options=terminal_df["TerminalName"].tolist())
+    start_terminal = st.selectbox("Select start terminal:", filtered_df["TerminalName"].tolist())
+    end_terminal = st.selectbox("Select end terminal:", filtered_df["TerminalName"].tolist())
     
     # Get route
-    route = get_route(start_terminal, end_terminal)
+    route = get_route(start_terminal, end_terminal, filtered_df)
     
-    # Convert coordinates to Mercator projection
-    lon_lat_proj = Proj(proj='latlong', datum='WGS84')
-    mercator_proj = Proj(proj='merc', datum='WGS84')
-    coordinates = route["geometry"]["coordinates"]
-    mercator_coords = [transform(lon_lat_proj, mercator_proj, lon, lat) for lon, lat in coordinates]
-    
-    # Plot
-    st.subheader("Map with Route")
-    p = figure(title="World Map with Terminals", width=800, height=600,
-               x_range=(-20037508.342789244, 20037508.342789244),
-               y_range=(-20037508.342789244, 20037508.342789244),
+    # Plotting with Bokeh
+    p = figure(title="World Map with Terminals", width=1100, height=650, 
+               x_range=(-20037508.342789244, 20037508.342789244), y_range=(-20037508.342789244, 20037508.342789244),
                tools="pan,wheel_zoom,box_zoom,reset,save")
-    
-    tile_provider = get_provider(Vendors.CARTODBPOSITRON)
-    p.add_tile(tile_provider)
+    p.add_tile(CARTODBPOSITRON)
     
     # Plot terminals
-    for status in terminal_df['Status'].unique():
-        source = ColumnDataSource(terminal_df[terminal_df['Status'] == status])
-        p.circle(x='MercatorLon', y='MercatorLat', size=10, color='blue' if status == 'Operating' else 'green', source=source)
+    color_mapper = factor_cmap(field_name='FacilityType', palette=['blue', 'green'], factors=sorted(filtered_df['FacilityType'].unique()))
+    operating_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Operating'])
+    construction_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Construction'])
+    proposed_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Proposed'])
+    
+    p.circle(x='Longitude', y='Latitude', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
+    p.triangle(x='Longitude', y='Latitude', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
+    p.cross(x='Longitude', y='Latitude', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
     
     # Plot route
+    coordinates = route["geometry"]["coordinates"]
+    lon_lat_proj = Proj(proj='latlong', datum='WGS84')
+    mercator_proj = Proj(proj='merc', datum='WGS84')
+    in_proj = Proj(init='epsg:4326')
+    out_proj = Proj(init='epsg:3857')
+    mercator_coords = [transform(in_proj, out_proj, lon, lat) for lon, lat in coordinates]
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
     source = ColumnDataSource(data=dict(lon=lon, lat=lat))
-    p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
+    line = p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     
-    # Hover tool
-    hover = HoverTool(tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    # Hover tooltip
+    hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", f"{round(route['properties']['duration_hours'] / 24, 2)}"), ("Length (km)", f"{round(route['properties']['length'])}")])
     p.add_tools(hover)
     
+    # Display the plot
     st.bokeh_chart(p, use_container_width=True)
 
 if __name__ == "__main__":
