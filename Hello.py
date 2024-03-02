@@ -71,7 +71,9 @@ def run():
     
     # Get route
     route = get_route(start_terminal, end_terminal)
-    
+    properties=route.properties
+    properties["duration_hours"]=round(properties["duration_hours"]/24,2)
+    properties["length"]=round(properties["length"])
     # Convert coordinates to Mercator projection
     lon_lat_proj = Proj(proj='latlong', datum='WGS84')
     mercator_proj = Proj(proj='merc', datum='WGS84')
