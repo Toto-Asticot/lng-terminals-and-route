@@ -89,10 +89,15 @@ def run():
     p.add_tile(tile_provider)
     
     # Plot terminals
-    for status in terminal_df['Status'].unique():
-        source = ColumnDataSource(terminal_df[terminal_df['Status'] == status])
-        p.circle(x='MercatorLon', y='MercatorLat', size=10, color='blue' if status == 'Operating' else 'green', source=source)
-    
+    color_mapper = factor_cmap(field_name='FacilityType', palette=['blue', 'green'], factors=sorted(filtered_df['FacilityType'].unique()))
+    operating_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Operating'])
+    construction_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Construction'])
+    proposed_source = ColumnDataSource(filtered_df[filtered_df['Status'] == 'Proposed'])
+
+    p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
+    p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
+    p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
+
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
