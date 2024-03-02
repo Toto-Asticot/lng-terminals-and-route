@@ -100,16 +100,16 @@ def run():
     construction_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Construction'])
     proposed_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Proposed'])
 
-    circle=p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
-    triangle=p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
-    cross=p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
+    circle=p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType', legend_label='Operating')
+    triangle=p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType', legend_label='Under Construction')
+    cross=p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType', legend_label='Proposed')
     circle_hover = HoverTool(renderers=[circle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(circle_hover)
     triangle_hover = HoverTool(renderers=[triangle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(triangle_hover)
     cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
-    
+    p.add_layout(p.legend[0], 'right')
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
