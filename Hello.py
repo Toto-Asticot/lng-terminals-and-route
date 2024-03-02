@@ -85,7 +85,7 @@ def run():
     p = figure(title="World Map with Terminals", width=800, height=600,
                x_range=(-20037508.342789244, 20037508.342789244),
                y_range=(-20037508.342789244, 20037508.342789244),
-               tools="pan,wheel_zoom,box_zoom,reset,save")
+               tools="pan,wheel_zoom,reset,save")
     
     tile_provider = get_provider(Vendors.CARTODBPOSITRON)
     p.add_tile(tile_provider)
@@ -110,10 +110,14 @@ def run():
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
     source = ColumnDataSource(data=dict(lon=lon, lat=lat, duration_hours=[properties["duration_hours"]]*len(lon), length=[properties["length"]]*len(lon)))
-    line=p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
+    # Add line glyphs to the figure
+    line = p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     
-    # Hover tool
-    line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
+    # Add a dummy circle glyph (invisible) to enable hover on the line
+    dummy_circle = p.circle(x="lon", y="lat", source=source, alpha=0)
+    
+    # Define hover tool with renderers argument set to both line and dummy circle renderers
+    line_hover = HoverTool(renderers=[line, dummy_circle], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
     p.add_tools(circle_hover)
     st.bokeh_chart(p, use_container_width=True)
     st.subheader("Terminal Data")
