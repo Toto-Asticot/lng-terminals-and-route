@@ -65,7 +65,7 @@ def run():
     # st.title("Terminal Route Visualization")
     st.markdown("<h1 style='text-align: center;'><i class='fas fa-ship'></i> Terminal Route Visualization <i class='fas fa-ship'></i></h1>", unsafe_allow_html=True)
     # User input for start and end terminals
-    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist(), index=9)
+    start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist(), index=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist().index("Qatargas 1 Ras Laffan LNG Terminal T2"))
     end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist(), index=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist().index("Le Havre FSRU"))
     
     passage=["babalmandab","bosporus","gibraltar","suez","panama","ormuz"]
