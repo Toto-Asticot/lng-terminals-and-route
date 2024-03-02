@@ -82,7 +82,7 @@ def run():
     coordinates = route["geometry"]["coordinates"]
     mercator_coords = [transform(lon_lat_proj, mercator_proj, lon, lat) for lon, lat in coordinates]
     st.subheader("Road estimation")
-    st.write(pd.DataFrame({"Length (km)":properties["length"],"Duration (days)":properties["duration_hours"]},index=["Road Estimation"]).style.set_properties(**{'text-align': 'center', 'margin': 'auto'}))
+    st.write(pd.DataFrame({"Length (km)":properties["length"],"Duration (days)":properties["duration_hours"]},index=["Road Estimation"]))
     
     # Plot
     st.subheader("Map with Route")
