@@ -62,9 +62,8 @@ def run():
         return route
     
     # Streamlit App
-    st.title("Terminal Route Visualization")
-
-    
+    # st.title("Terminal Route Visualization")
+    st.markdown("<h1 style='text-align: center;'><i class='fas fa-ship'></i> Terminal Route Visualization <i class='fas fa-ship'></i></h1>", unsafe_allow_html=True)
     # User input for start and end terminals
     start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist(), index=9)
     end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist(), index=200)
