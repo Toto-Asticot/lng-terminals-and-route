@@ -100,25 +100,16 @@ def run():
     construction_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Construction'])
     proposed_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Proposed'])
 
-    # Draw circles for operating facilities
-# Draw circles for operating facilities
-    circle = p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_label='Operating')
-    
-    # Draw triangles for construction facilities
-    triangle = p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_label='Under Construction')
-    
-    # Draw crosses for proposed facilities
-    cross = p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_label='Proposed')
-    # Add hover tools for circles
-    circle_hover = HoverTool(renderers=[circle], tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    circle=p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
+    triangle=p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
+    cross=p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
+    circle_hover = HoverTool(renderers=[circle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(circle_hover)
-    # Add hover tools for triangles
-    triangle_hover = HoverTool(renderers=[triangle], tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    triangle_hover = HoverTool(renderers=[triangle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(triangle_hover)
-    # Add hover tools for crosses
-    cross_hover = HoverTool(renderers=[cross], tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
-    # Add legend for FacilityType
+
     p.add_layout(p.legend[0], 'right')
 
     # Plot route
