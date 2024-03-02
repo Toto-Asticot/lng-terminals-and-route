@@ -109,16 +109,16 @@ def run():
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
-    source = ColumnDataSource(data=dict(lon=lon, lat=lat))
-    line=p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     source = ColumnDataSource(data=dict(lon=lon, lat=lat, duration_hours=[properties["duration_hours"]]*len(lon), length=[properties["length"]]*len(lon)))
+    line=p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
+    
     # Hover tool
-
     line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
     p.add_tools(circle_hover)
     st.bokeh_chart(p, use_container_width=True)
     st.subheader("Terminal Data")
     st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
     st.write(terminal_df[terminal_df["TerminalName"] == end_terminal])
+    
 if __name__ == "__main__":
     run()
