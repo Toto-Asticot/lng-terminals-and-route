@@ -117,6 +117,8 @@ def run():
     line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
     p.add_tools(circle_hover)
     st.bokeh_chart(p, use_container_width=True)
-
+    st.subheader("Terminal Data")
+    st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
+    st.write(terminal_df[terminal_df["TerminalName"] == end_terminal])
 if __name__ == "__main__":
     run()
