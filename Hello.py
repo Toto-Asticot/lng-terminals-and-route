@@ -15,7 +15,7 @@ import streamlit as st
 from streamlit.logger import get_logger
 from pyproj import Proj, transform
 from bokeh.plotting import figure, output_notebook, show
-from bokeh.models import ColumnDataSource, HoverTool, Label,Div
+from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.tile_providers import get_provider, CARTODBPOSITRON, Vendors
 from bokeh.transform import factor_cmap
 import pandas as pd
@@ -110,14 +110,15 @@ def run():
     cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
     # Define HTML code for Font Awesome icons
+    # Define HTML code for Font Awesome icons
     circle_icon = '<i class="fas fa-circle" style="color:blue;"></i>'
     triangle_icon = '<i class="fas fa-caret-up" style="color:orange;"></i>'
     cross_icon = '<i class="fas fa-times" style="color:red;"></i>'
     
-    # Add Divs with HTML code for icons to the layout
-    p.add_layout(Div(text=f"{circle_icon} Circles: Operating", width=200, height=30, style={'font-size': '16pt', 'color': 'black'}))
-    p.add_layout(Div(text=f"{triangle_icon} Triangles: Under Construction", width=200, height=30, style={'font-size': '16pt', 'color': 'black'}))
-    p.add_layout(Div(text=f"{cross_icon} Crosses: Proposed", width=200, height=30, style={'font-size': '16pt', 'color': 'black'}))
+    # Add HTML content using Streamlit's native components
+    st.markdown(f"{circle_icon}: Operating")
+    st.markdown(f"{triangle_icon}: Under Construction")
+    st.markdown(f"{cross_icon}: Proposed")
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
