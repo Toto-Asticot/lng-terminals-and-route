@@ -109,7 +109,9 @@ def run():
     p.add_tools(triangle_hover)
     cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
-
+    p.add_layout(Label(x=10, y=10, x_units='screen', y_units='screen', text='Circles: Operating', render_mode='css', background_fill_color='white'))
+    p.add_layout(Label(x=10, y=30, x_units='screen', y_units='screen', text='Triangles: Under Construction', render_mode='css', background_fill_color='white'))
+    p.add_layout(Label(x=10, y=50, x_units='screen', y_units='screen', text='Crosses: Proposed', render_mode='css', background_fill_color='white'))
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
