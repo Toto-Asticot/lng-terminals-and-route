@@ -110,9 +110,9 @@ def run():
     cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
     # URLs for Font Awesome icons
-    circle_icon_url = "URL for circle icon"
-    triangle_icon_url = "URL for triangle icon"
-    cross_icon_url = "URL for cross icon"
+    circle_icon_url = "https://uxwing.com/wp-content/themes/uxwing/download/arts-graphic-shapes/circle-icon.png"
+    triangle_icon_url = "https://e7.pngegg.com/pngimages/984/314/png-clipart-triangular-black-illustration-triangle-computer-icons-scalable-graphics-triangle-angle-monochrome.png"
+    cross_icon_url = "https://cdn-icons-png.flaticon.com/512/57/57165.png"
     
     # Display icons using st.image()
     st.image(circle_icon_url, width=30)
