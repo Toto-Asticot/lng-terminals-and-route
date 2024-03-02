@@ -89,7 +89,7 @@ def run():
     p.add_tile(tile_provider)
     
     # Plot terminals
-    color_mapper = factor_cmap(field_name='FacilityType', palette=['blue', 'green'], factors=sorted(filtered_df['FacilityType'].unique()))
+    color_mapper = factor_cmap(field_name='FacilityType', palette=['blue', 'green'], factors=sorted(terminal_df['FacilityType'].unique()))
     operating_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Operating'])
     construction_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Construction'])
     proposed_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Proposed'])
