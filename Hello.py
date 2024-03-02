@@ -72,7 +72,7 @@ p = figure(title="World Map with Terminals", width=1100, height=650,
            x_range=(-20037508.342789244, 20037508.342789244), y_range=(-20037508.342789244, 20037508.342789244),
            tools="pan,wheel_zoom,box_zoom,reset,save")
 
-p.add_tile(CARTODBPOSITRON)
+p.add_tile(CARTODBPOSITRON())
 
 color_mapper = factor_cmap(field_name='FacilityType', palette=['blue', 'green'], factors=sorted(filtered_df['FacilityType'].unique()))
 
