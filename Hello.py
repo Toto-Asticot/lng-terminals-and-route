@@ -18,7 +18,7 @@ import streamlit as st
 from pyproj import Proj, transform
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.tile_providers import CARTODBPOSITRON
+from bokeh.tile_providers import CARTODBPOSITRON,STAMEN_TONER
 from bokeh.transform import factor_cmap
 import pandas as pd
 import searoute as sr
@@ -72,7 +72,7 @@ p = figure(title="World Map with Terminals", width=1100, height=650,
            x_range=(-20037508.342789244, 20037508.342789244), y_range=(-20037508.342789244, 20037508.342789244),
            tools="pan,wheel_zoom,box_zoom,reset,save")
 
-p.add_tile(CARTODBPOSITRON())
+p.add_tile(STAMEN_TONER)
 
 color_mapper = factor_cmap(field_name='FacilityType', palette=['blue', 'green'], factors=sorted(filtered_df['FacilityType'].unique()))
 
