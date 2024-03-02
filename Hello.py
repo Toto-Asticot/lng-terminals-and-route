@@ -63,10 +63,7 @@ def run():
     
     # Streamlit App
     st.title("Terminal Route Visualization")
-    
-    # Display terminal data
-    st.subheader("Terminal Data")
-    st.write(terminal_df[["TerminalName", "FacilityType"]])
+
     
     # User input for start and end terminals
     start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist())
@@ -106,12 +103,13 @@ def run():
     p.add_tools(triangle_hover)
     cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
+    
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
     lat = [coord[1] for coord in mercator_coords]
     source = ColumnDataSource(data=dict(lon=lon, lat=lat))
     line=p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
-    
+    source = ColumnDataSource(data=dict(lon=lon, lat=lat, duration_hours=[properties["duration_hours"]]*len(lon), length=[properties["length"]]*len(lon)))
     # Hover tool
 
     line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
