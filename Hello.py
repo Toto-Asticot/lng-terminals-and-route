@@ -85,7 +85,8 @@ def run():
                y_range=(-20037508.342789244, 20037508.342789244),
                tools="pan,wheel_zoom,box_zoom,reset,save")
     
-    p.add_tile(Vendors.CARTODBPOSITRON)
+    tile_provider = get_provider(Vendors.CARTODBPOSITRON)
+    p.add_tile(tile_provider)
     
     # Plot terminals
     for status in filtered_df['Status'].unique():
