@@ -15,7 +15,7 @@
 import streamlit as st
 from streamlit.logger import get_logger
 import streamlit as st
-# from pyproj import Proj, transform
+from pyproj import Proj, transform
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.tile_providers import get_provider, CARTODBPOSITRON
