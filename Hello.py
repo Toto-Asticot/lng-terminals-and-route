@@ -18,7 +18,7 @@ import streamlit as st
 from pyproj import Proj, transform
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.tile_providers import CARTODBPOSITRON, get_provider
+from bokeh.tile_providers import CARTODBPOSITRON, get_provider, Vendors
 from bokeh.transform import factor_cmap
 import pandas as pd
 import searoute as sr
