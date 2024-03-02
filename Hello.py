@@ -82,7 +82,7 @@ def run():
     
     # Plot
     st.subheader("Map with Route")
-    p = figure(title="World Map with Terminals", width=1000, height=700,
+    p = figure(title="World Map with Terminals", width=1000, height=600,
                x_range=(-20037508.342789244, 20037508.342789244),
                y_range=(-20037508.342789244, 20037508.342789244),
                tools="pan,wheel_zoom,reset,save")
