@@ -97,7 +97,7 @@ def run():
     construction_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Construction'])
     proposed_source = ColumnDataSource(terminal_df[terminal_df['Status'] == 'Proposed'])
 
-    p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
+    circle=p.circle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=operating_source, legend_field='FacilityType')
     p.triangle(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=construction_source, legend_field='FacilityType')
     p.cross(x='MercatorLon', y='MercatorLat', size=10, color=color_mapper, source=proposed_source, legend_field='FacilityType')
 
@@ -108,7 +108,7 @@ def run():
     p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     
     # Hover tool
-    hover = HoverTool(renderers=[p.select(dict(name='circle'))],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    hover = HoverTool(renderers=[circle],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(hover)
     hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
     p.add_tools(hover)
