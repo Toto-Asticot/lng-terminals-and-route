@@ -121,6 +121,6 @@ def run():
     st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
     st.write(terminal_df[terminal_df["TerminalName"] == end_terminal])
     st.subheader("Road estimation")
-    st.write(pd.DataFrame({"Length (km)":properties["length"],"Duration (days)":properties["Duration (days)"]))
+    st.write(pd.DataFrame({"Length (km)":properties["length"],"Duration (days)":properties["Duration (days)"]}))
 if __name__ == "__main__":
     run()
