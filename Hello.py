@@ -108,9 +108,10 @@ def run():
     p.line(x="lon", y="lat", source=source, line_color="red", line_width=2)
     
     # Hover tool
-    hover = HoverTool(tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
+    hover = HoverTool(renderers=[circle,triangle,cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(hover)
-    
+    hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
+    p.add_tools(hover)
     st.bokeh_chart(p, use_container_width=True)
 
 if __name__ == "__main__":
