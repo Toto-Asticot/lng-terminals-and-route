@@ -123,12 +123,6 @@ def run():
     line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
     p.add_tools(line_hover)
     st.bokeh_chart(p, use_container_width=True)
-    circle_icon_url = "https://www.clipartmax.com/png/middle/201-2011204_light-blue-circle-transparent.png"
-    triangle_icon_url = "https://w7.pngwing.com/pngs/805/19/png-transparent-triangle-blue-illustration-blue-triangle-sky-aqua-azure-triangle-blue-angle-triangle-thumbnail.png"
-    cross_icon_url = "https://p1.hiclipart.com/preview/287/190/559/plus-sign-icon-design-plusminus-sign-plus-and-minus-signs-cross-symbol-religious-item-electric-blue-png-clipart.jpg"
-    # Display icons using st.image()
-    st.image([circle_icon_url,triangle_icon_url,cross_icon_url], width=30)
-    st.write(["Operating Under Construction Proposed"])
     
     st.subheader("Terminal Data")
     st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
