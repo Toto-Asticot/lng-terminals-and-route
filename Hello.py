@@ -116,7 +116,7 @@ def run():
     
     # Display icons using st.image()
     st.image([circle_icon_url,triangle_icon_url,cross_icon_url], width=30)
-    st.write(["Operating    Under Construction    Proposed")
+    st.write(["Operating    Under Construction    Proposed"])
     
 
     # Plot route
