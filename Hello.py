@@ -115,14 +115,9 @@ def run():
     cross_icon_url = "https://cdn-icons-png.flaticon.com/512/57/57165.png"
     
     # Display icons using st.image()
-    st.image(circle_icon_url, width=30)
-    st.write("Circles: Operating")
+    st.image([circle_icon_url,triangle_icon_url,cross_icon_url], width=30)
+    st.write(["Operating    Under Construction    Proposed")
     
-    st.image(triangle_icon_url, width=30)
-    st.write("Triangles: Under Construction")
-    
-    st.image(cross_icon_url, width=30)
-    st.write("Crosses: Proposed")
 
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
