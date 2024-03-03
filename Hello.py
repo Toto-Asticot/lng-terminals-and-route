@@ -110,14 +110,7 @@ def run():
     cross_hover = HoverTool(renderers=[cross],tooltips=[("Name", "@TerminalName"), ("Status", "@Status"), ("Parent", "@Parent"), ("Capacity (MTPA)", "@CapacityInMtpa")])
     p.add_tools(cross_hover)
     # URLs for Font Awesome icons
-    circle_icon_url = "https://uxwing.com/wp-content/themes/uxwing/download/arts-graphic-shapes/circle-icon.png"
-    triangle_icon_url = "https://e7.pngegg.com/pngimages/984/314/png-clipart-triangular-black-illustration-triangle-computer-icons-scalable-graphics-triangle-angle-monochrome.png"
-    cross_icon_url = "https://cdn-icons-png.flaticon.com/512/57/57165.png"
-    
-    # Display icons using st.image()
-    st.image([circle_icon_url,triangle_icon_url,cross_icon_url], width=30)
-    st.write(["Operating    Under Construction    Proposed"])
-    
+
 
     # Plot route
     lon = [coord[0] for coord in mercator_coords]
@@ -130,6 +123,13 @@ def run():
     line_hover = HoverTool(renderers=[line], tooltips=[("Duration (days)", "@duration_hours"), ("Length (km)", "@length")])
     p.add_tools(line_hover)
     st.bokeh_chart(p, use_container_width=True)
+    circle_icon_url = "https://www.clipartmax.com/png/middle/201-2011204_light-blue-circle-transparent.png"
+    triangle_icon_url = "https://w7.pngwing.com/pngs/805/19/png-transparent-triangle-blue-illustration-blue-triangle-sky-aqua-azure-triangle-blue-angle-triangle-thumbnail.png"
+    cross_icon_url = "https://p1.hiclipart.com/preview/287/190/559/plus-sign-icon-design-plusminus-sign-plus-and-minus-signs-cross-symbol-religious-item-electric-blue-png-clipart.jpg"
+    # Display icons using st.image()
+    st.image([circle_icon_url,triangle_icon_url,cross_icon_url], width=30)
+    st.write(["Operating Under Construction Proposed"])
+    
     st.subheader("Terminal Data")
     st.write(terminal_df[terminal_df["TerminalName"] == start_terminal])
     st.write(terminal_df[terminal_df["TerminalName"] == end_terminal])
