@@ -44,7 +44,7 @@ def run():
     
     # Select required columns and drop NaN values
     terminal_df = terminal_df.loc[:, ["TerminalName", "FacilityType", "Status", "Parent", "CapacityInMtpa", "Latitude", "Longitude"]].replace("Unknown", float('nan')).dropna()
-    
+    terminal_df = terminal_df[~terminal_df['Status'].isin(['Shelved', 'Cancelled', 'Idle', 'Mothballed', 'Retired'])]
     # Convert latitude and longitude to numeric type
     terminal_df['Latitude'] = pd.to_numeric(terminal_df['Latitude'], errors='coerce')
     terminal_df['Longitude'] = pd.to_numeric(terminal_df['Longitude'], errors='coerce')
