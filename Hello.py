@@ -68,7 +68,7 @@ def run():
     start_terminal = st.selectbox("Select Start Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist(), index=terminal_df[terminal_df["FacilityType"] == "Export"]["TerminalName"].tolist().index("Qatargas 1 Ras Laffan LNG Terminal T2"))
     end_terminal = st.selectbox("Select End Terminal:", options=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist(), index=terminal_df[terminal_df["FacilityType"] == "Import"]["TerminalName"].tolist().index("Le Havre FSRU"))
     
-    passage=["babalmandab","gibraltar","suez","panama","sunda","malacca","dover"]
+    passage=["babalmandab","gibraltar","suez","panama","sunda","malacca"]
     selected_values = st.multiselect('Select unaccessible routes:', passage)+["northwest"]
     speed_knot = st.slider('Vessel speed (knots):', min_value=0, max_value=30, value=15)
     # Get route
