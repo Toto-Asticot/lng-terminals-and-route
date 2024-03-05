@@ -70,7 +70,7 @@ def run():
     
     passage=["babalmandab","gibraltar","suez","panama","sunda","malacca"]
     selected_values = st.multiselect('Select unaccessible routes:', passage)+["northwest"]
-    speed_knot = st.slider('Vessel speed (knots):', min_value=0, max_value=30, value=15)
+    speed_knot = st.slider('Vessel speed (knots):', min_value=0, max_value=30, value=17)
     # Get route
     route = get_route(start_terminal, end_terminal,speed_knot,selected_values)
     properties=route.properties
